@@ -1,0 +1,7 @@
+﻿When you read the tooltip on a modded item, WMITF will show you the name of the mod which it came from.
+
+This can be useful if you're playing with lots of mods at once, or if you're a YouTuber and you want your viewers to see which mods you're using.
+
+In the future, I might add similar functionality for tiles and NPCs.
+
+(Inspired by the Minecraft mod WAILA by ProfMobius)

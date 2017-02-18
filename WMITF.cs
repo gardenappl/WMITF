@@ -31,7 +31,7 @@ namespace WMITF
 		
 		public override void Load()
 		{
-			ToggleTooltipsHotkey = RegisterHotKey("Toggle Mod Tooltip", "OemQuestion");
+			ToggleTooltipsHotkey = RegisterHotKey("Tile/NPC Mod Tooltip", "OemQuestion");
 		}
 		
 		public class WorldTooltips : ModPlayer
@@ -106,6 +106,7 @@ namespace WMITF
 			}
 		}
 		
+		//Thank you jopojelly! (taken from https://github.com/JavidPack/SummonersAssociation)
 		bool DrawMouseText()
 		{
 			if(DisplayTooltips && !String.IsNullOrEmpty(MouseText))
@@ -138,9 +139,9 @@ namespace WMITF
 		{
 			public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 			{
-				if(DisplayTooltips && item.modItem != null && !item.name.Contains("[" + item.modItem.mod.Name + "]") && !item.name.Contains("[" + item.modItem.mod.DisplayName + "]"))
+				if(item.modItem != null && !item.name.Contains("[" + item.modItem.mod.Name + "]") && !item.name.Contains("[" + item.modItem.mod.DisplayName + "]"))
 				{
-					var line = new TooltipLine(mod, "WhichMod", "[" + item.modItem.mod.DisplayName + "]");
+					var line = new TooltipLine(mod, mod.Name, "[" + item.modItem.mod.DisplayName + "]");
 					line.overrideColor = Colors.RarityBlue;
 					tooltips.Add(line);
 				}

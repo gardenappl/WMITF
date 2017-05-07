@@ -1,11 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.GameContent.UI.Chat;
 using Terraria.ModLoader.IO;
@@ -19,19 +21,32 @@ namespace WMITF
 		static string MouseText;
 		static bool SecondLine;
 		static ModHotKey ToggleTooltipsHotkey;
-		static bool DisplayTooltips = true;
+		static bool DisplayWorldTooltips = false;
+		static bool DisplayItemTooltips = true;
 		
-		public WMITF()
-		{
-			Properties = new ModProperties
-			{
-				Autoload = true
-			};
-		}
+		static Preferences Configuration = new Preferences(Path.Combine(Main.SavePath, "Mod Configs", "WMITF.json"));
 		
 		public override void Load()
 		{
 			ToggleTooltipsHotkey = RegisterHotKey("Tile/NPC Mod Tooltip", "OemQuestion");
+			if(Configuration.Load())
+			{
+				Configuration.Get("DisplayWorldTooltips", ref DisplayWorldTooltips);
+				Configuration.Get("DisplayItemTooltips", ref DisplayItemTooltips);
+			}
+			else
+			{
+				Configuration.Put("DisplayWorldTooltips", DisplayWorldTooltips);
+				Configuration.Put("DisplayItemTooltips", DisplayItemTooltips);
+				Configuration.Save();
+			}
+			Configuration.AutoSave = true;
+		}
+		
+		public static bool CheckAprilFools()
+		{
+			DateTime now = DateTime.Now;
+			return now.Month == 4 && now.Day <= 2;
 		}
 		
 		public class WorldTooltips : ModPlayer
@@ -40,20 +55,24 @@ namespace WMITF
 			{
 				if(ToggleTooltipsHotkey.JustPressed)
 				{
-					DisplayTooltips = !DisplayTooltips;
+					DisplayWorldTooltips = !DisplayWorldTooltips;
+					Configuration.Put("DisplayWorldTooltips", DisplayWorldTooltips);
 					Main.PlaySound(SoundID.MenuTick);
 				}
 			}
 			
 			public override void PostUpdate()
 			{
-				if(Main.dedServ || !DisplayTooltips) return;
+				if(Main.dedServ || !DisplayWorldTooltips) return;
 				Mod displayMod = null;
+				Mod modLoaderMod = ModLoader.GetMod("ModLoader"); //modmodloadermodmodloadermodmodloader
+				int mysteryTile = modLoaderMod.TileType("MysteryTile");
+				int mysteryTile2 = modLoaderMod.TileType("PendingMysteryTile");
 				
 				var tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
 				if(tile != null)
 				{
-					if(tile.active())
+					if(tile.active() && tile.type != mysteryTile && tile.type != mysteryTile2)
 					{
 						var modTile = TileLoader.GetTile(tile.type);
 						if(modTile != null)
@@ -109,7 +128,7 @@ namespace WMITF
 		//Thank you jopojelly! (taken from https://github.com/JavidPack/SummonersAssociation)
 		bool DrawMouseText()
 		{
-			if(DisplayTooltips && !String.IsNullOrEmpty(MouseText))
+			if(DisplayWorldTooltips && !String.IsNullOrEmpty(MouseText))
 			{
 				float x = Main.fontMouseText.MeasureString(MouseText).X;
 				var pos = Main.MouseScreen + new Vector2(16f, 16f);
@@ -139,11 +158,17 @@ namespace WMITF
 		{
 			public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 			{
-				if(item.modItem != null && !item.name.Contains("[" + item.modItem.mod.Name + "]") && !item.name.Contains("[" + item.modItem.mod.DisplayName + "]"))
+				Mod modLoaderMod = ModLoader.GetMod("ModLoader");
+				int mysteryItem = modLoaderMod.ItemType("MysteryItem");
+				int aprilFoolsItem = modLoaderMod.ItemType("AprilFools");
+				if(DisplayItemTooltips && item.type != mysteryItem && (item.type != aprilFoolsItem || CheckAprilFools()))
 				{
-					var line = new TooltipLine(mod, mod.Name, "[" + item.modItem.mod.DisplayName + "]");
-					line.overrideColor = Colors.RarityBlue;
-					tooltips.Add(line);
+					if(item.modItem != null && !item.name.Contains("[" + item.modItem.mod.Name + "]") && !item.name.Contains("[" + item.modItem.mod.DisplayName + "]"))
+					{
+						var line = new TooltipLine(mod, mod.Name, "[" + item.modItem.mod.DisplayName + "]");
+						line.overrideColor = Colors.RarityBlue;
+						tooltips.Add(line);
+					}
 				}
 			}
 		}

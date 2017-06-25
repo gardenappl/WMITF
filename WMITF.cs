@@ -13,6 +13,7 @@ using Terraria.GameContent.UI.Chat;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace WMITF
 {
@@ -114,47 +115,40 @@ namespace WMITF
 					}
 				}
 			}
-		}
-		
-		public override void ModifyInterfaceLayers(List<MethodSequenceListItem> layers)
-		{
-			int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-			if(index != -1)
-			{
-				layers.Insert(index, new MethodSequenceListItem("WMITF: Mouse Text", DrawMouseText));
-			}
-		}
-		
-		//Thank you jopojelly! (taken from https://github.com/JavidPack/SummonersAssociation)
-		bool DrawMouseText()
-		{
-			if(DisplayWorldTooltips && !String.IsNullOrEmpty(MouseText))
-			{
-				float x = Main.fontMouseText.MeasureString(MouseText).X;
-				var pos = Main.MouseScreen + new Vector2(16f, 16f);
-				if (pos.Y > (float)(Main.screenHeight - 30))
-				{
-					pos.Y = (float)(Main.screenHeight - 30);
-				}
-				if (pos.X > (float)(Main.screenWidth - x))
-				{
-					pos.X = (float)(Main.screenWidth - x);
-				}
-				if(SecondLine)
-				{
-					pos.Y += Main.fontMouseText.LineSpacing;
-				}
-				int hoveredSnippet;
-				var array = ChatManager.ParseMessage(MouseText, Color.White);
-				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, array, pos, 0f, Vector2.Zero, Vector2.One, out hoveredSnippet);
-				
-				SecondLine = false;
-				MouseText = "";
-			}
-			return true;
-		}
-		
-		public class ItemTooltips : GlobalItem
+        }
+
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
+            int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (index != -1) {
+                layers.Insert(index, new GameInterfaceLayer("WMITF: Mouse Text", InterfaceScaleType.UI));
+            }
+        }
+
+        //Thank you jopojelly! (taken from https://github.com/JavidPack/SummonersAssociation)
+        public override void PostDrawInterface(SpriteBatch spriteBatch) {
+            base.PostDrawInterface(spriteBatch);
+            if (DisplayWorldTooltips && !String.IsNullOrEmpty(MouseText)) {
+                float x = Main.fontMouseText.MeasureString(MouseText).X;
+                var pos = Main.MouseScreen + new Vector2(16f, 16f);
+                if (pos.Y > (float)(Main.screenHeight - 30)) {
+                    pos.Y = (float)(Main.screenHeight - 30);
+                }
+                if (pos.X > (float)(Main.screenWidth - x)) {
+                    pos.X = (float)(Main.screenWidth - x);
+                }
+                if (SecondLine) {
+                    pos.Y += Main.fontMouseText.LineSpacing;
+                }
+                int hoveredSnippet;
+                var array = ChatManager.ParseMessage(MouseText, Color.White);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, array.ToArray(), pos, 0f, Vector2.Zero, Vector2.One, out hoveredSnippet);
+
+                SecondLine = false;
+                MouseText = "";
+            }
+        }
+
+        public class ItemTooltips : GlobalItem
 		{
 			public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 			{
@@ -163,7 +157,7 @@ namespace WMITF
 				int aprilFoolsItem = modLoaderMod.ItemType("AprilFools");
 				if(DisplayItemTooltips && item.type != mysteryItem && (item.type != aprilFoolsItem || CheckAprilFools()))
 				{
-					if(item.modItem != null && !item.name.Contains("[" + item.modItem.mod.Name + "]") && !item.name.Contains("[" + item.modItem.mod.DisplayName + "]"))
+					if(item.modItem != null && !item.Name.Contains("[" + item.modItem.mod.Name + "]") && !item.Name.Contains("[" + item.modItem.mod.DisplayName + "]"))
 					{
 						var line = new TooltipLine(mod, mod.Name, "[" + item.modItem.mod.DisplayName + "]");
 						line.overrideColor = Colors.RarityBlue;

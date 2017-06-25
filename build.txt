@@ -1,8 +1,9 @@
 ﻿displayName = Which Mod Is This From?
 author = goldenapple
-version = 2.2
+version = 2.2.1
 homepage = http://forums.terraria.org/index.php?threads/vanilla-tweaks-other-little-tweak-mods.37443/#WMITF
 hideResources = false
 hideCode = false
 includeSource = true
+includePDB = true
 buildIgnore = obj\*, bin\*, *.csproj, .git\*, *.gitignore, *.md

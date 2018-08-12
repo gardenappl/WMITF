@@ -40,13 +40,15 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="tModLoader">
-      <HintPath>..\..\..\..\Steam\SteamApps\common\Terraria\tModLoader.exe</HintPath>
+    <Reference Include="Terraria">
+      <HintPath>..\..\..\..\Steam\SteamApps\common\Terraria\Terraria.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="build.txt" />
     <None Include="description.txt" />
+    <None Include="Localization\en-US.lang" />
+    <None Include="Localization\ru-RU.lang" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WMITF.cs" />

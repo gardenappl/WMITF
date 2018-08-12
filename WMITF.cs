@@ -14,6 +14,7 @@ using Terraria.ModLoader.IO;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Localization;
 
 namespace WMITF
 {
@@ -22,43 +23,95 @@ namespace WMITF
 		static string MouseText;
 		static bool SecondLine;
 		static ModHotKey ToggleTooltipsHotkey;
+		static ModHotKey TechnicalNamesHotkey;
 		static bool DisplayWorldTooltips = false;
 		static bool DisplayItemTooltips = true;
+		static bool DisplayTechnicalNames = false;
 		
 		static Preferences Configuration = new Preferences(Path.Combine(Main.SavePath, "Mod Configs", "WMITF.json"));
-		
+
 		public override void Load()
 		{
 			ToggleTooltipsHotkey = RegisterHotKey("Tile/NPC Mod Tooltip", "OemQuestion");
+			TechnicalNamesHotkey = RegisterHotKey("Technical Names", "N");
+			if(!ReadConfig())
+			{
+				SetConfigDefaults();
+				SaveConfig();
+			}
+			Configuration.AutoSave = true;
+		}
+
+		#region Config
+
+		static bool ReadConfig()
+		{
 			if(Configuration.Load())
 			{
 				Configuration.Get("DisplayWorldTooltips", ref DisplayWorldTooltips);
 				Configuration.Get("DisplayItemTooltips", ref DisplayItemTooltips);
+				Configuration.Get("DisplayTechnicalNames", ref DisplayTechnicalNames);
+				return true;
 			}
-			else
-			{
-				Configuration.Put("DisplayWorldTooltips", DisplayWorldTooltips);
-				Configuration.Put("DisplayItemTooltips", DisplayItemTooltips);
-				Configuration.Save();
-			}
-			Configuration.AutoSave = true;
+			return false;
 		}
-		
+
+		static void SetConfigDefaults()
+		{
+			DisplayWorldTooltips = false;
+			DisplayItemTooltips = true;
+			DisplayTechnicalNames = false;
+		}
+
+		static void SaveConfig()
+		{
+			Configuration.Put("DisplayWorldTooltips", DisplayWorldTooltips);
+			Configuration.Put("DisplayItemTooltips", DisplayItemTooltips);
+			Configuration.Put("DisplayTechnicalNames", DisplayTechnicalNames);
+			Configuration.Save();
+		}
+
+		#endregion Config
+
 		public static bool CheckAprilFools()
 		{
 			var date = DateTime.Now;
 			return date.Month == 4 && date.Day <= 2;
 		}
-		
+
+		#region In-World Tooltips
+
 		public class WorldTooltips : ModPlayer
 		{
 			public override void ProcessTriggers(TriggersSet triggersSet)
 			{
 				if(ToggleTooltipsHotkey.JustPressed)
 				{
-					DisplayWorldTooltips = !DisplayWorldTooltips;
+					if(DisplayWorldTooltips)
+					{
+						DisplayWorldTooltips = false;
+						Main.NewText(Language.GetTextValue("Mods.WMITF.WorldTooltipsOff"));
+					}
+					else
+					{
+						DisplayWorldTooltips = true;
+						Main.NewText(Language.GetTextValue("Mods.WMITF.WorldTooltipsOn"));
+					}
 					Configuration.Put("DisplayWorldTooltips", DisplayWorldTooltips);
-					Main.PlaySound(SoundID.MenuTick);
+				}
+				if(TechnicalNamesHotkey.JustPressed)
+				{
+					if(DisplayTechnicalNames)
+					{
+						DisplayTechnicalNames = false;
+						Main.NewText(Language.GetTextValue("Mods.WMITF.TechNamesOff"));
+					}
+					else
+					{
+						DisplayTechnicalNames = true;
+						Main.NewText(Language.GetTextValue("Mods.WMITF.TechNamesOn"));
+					}
+					Configuration.Put("DisplayTechnicalNames", DisplayTechnicalNames);
 				}
 			}
 			
@@ -66,9 +119,8 @@ namespace WMITF
 			{
 				if(Main.dedServ || !DisplayWorldTooltips)
 					return;
-				MouseText = "";
+				MouseText = String.Empty;
 				SecondLine = false;
-				Mod displayMod = null;
 				var modLoaderMod = ModLoader.GetMod("ModLoader"); //modmodloadermodmodloadermodmodloader
 				int mysteryTile = modLoaderMod.TileType("MysteryTile");
 				int mysteryTile2 = modLoaderMod.TileType("PendingMysteryTile");
@@ -81,7 +133,7 @@ namespace WMITF
 						var modTile = TileLoader.GetTile(tile.type);
 						if(modTile != null)
 						{
-							displayMod = modTile.mod;
+							MouseText = DisplayTechnicalNames ? (modTile.mod.Name + ":" + modTile.Name) : modTile.mod.DisplayName;
 						}
 					}
 					else
@@ -89,7 +141,7 @@ namespace WMITF
 						var modWall = WallLoader.GetWall(tile.wall);
 						if(modWall != null)
 						{
-							displayMod = modWall.mod;
+							MouseText = DisplayTechnicalNames ? (modWall.mod.Name + ":" + modWall.Name) : modWall.mod.DisplayName;
 						}
 					}
 				}
@@ -103,19 +155,15 @@ namespace WMITF
 						var modNPC = NPCLoader.GetNPC(npc.type);
 						if(modNPC != null && npc.active && !NPCID.Sets.ProjectileNPC[npc.type])
 						{
-							displayMod = modNPC.mod;
+							MouseText = DisplayTechnicalNames ? (modNPC.mod.Name + ":" + modNPC.Name) : modNPC.mod.DisplayName;
 							SecondLine = true;
 							break;
 						}
 					}
 				}
-				if(displayMod != null)
+				if(MouseText != String.Empty && Main.mouseText)
 				{
-					MouseText = String.Format("[c/{1}:[{0}][c/{1}:]]", displayMod.DisplayName, Colors.RarityBlue.Hex3());
-					if(Main.mouseText)
-					{
-						SecondLine = true;
-					}
+					SecondLine = true;
 				}
 			}
 		}
@@ -130,8 +178,9 @@ namespace WMITF
 				{
 					if(DisplayWorldTooltips && !String.IsNullOrEmpty(MouseText))
 					{
-						var text = ChatManager.ParseMessage(MouseText, Color.White).ToArray();
-//						float x = Main.fontMouseText.MeasureString(MouseText).X;
+						string coloredString = String.Format("[c/{1}:[{0}][c/{1}:]]", MouseText, Colors.RarityBlue.Hex3());
+						var text = ChatManager.ParseMessage(coloredString, Color.White).ToArray();
+						//float x = Main.fontMouseText.MeasureString(MouseText).X;
 						float x = ChatManager.GetStringSize(Main.fontMouseText, text, Vector2.One).X;
 						var pos = Main.MouseScreen + new Vector2(16f, 16f);
 						if(pos.Y > (float)(Main.screenHeight - 30))
@@ -148,6 +197,10 @@ namespace WMITF
 			}
 		}
 
+		#endregion
+
+		#region Item Tooltips
+
 		public class ItemTooltips : GlobalItem
 		{
 			public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -159,12 +212,35 @@ namespace WMITF
 				{
 					if(item.modItem != null && !item.Name.Contains("[" + item.modItem.mod.Name + "]") && !item.Name.Contains("[" + item.modItem.mod.DisplayName + "]"))
 					{
-						var line = new TooltipLine(mod, mod.Name, "[" + item.modItem.mod.DisplayName + "]");
+						string text = DisplayTechnicalNames ? (item.modItem.mod.Name + ":" + item.modItem.Name) : item.modItem.mod.DisplayName;
+						var line = new TooltipLine(mod, mod.Name, "[" + text + "]");
 						line.overrideColor = Colors.RarityBlue;
 						tooltips.Add(line);
 					}
 				}
 			}
 		}
+
+		#endregion
+
+		#region Hamstar's Mod Helpers integration
+
+		public static string GithubUserName { get { return "goldenapple3"; } }
+		public static string GithubProjectName { get { return "WMITF"; } }
+
+		public static string ConfigFileRelativePath { get { return "Mod Configs/WMITF.json"; } }
+
+		public static void ReloadConfigFromFile()
+		{
+			ReadConfig();
+		}
+
+		public static void ResetConfigFromDefaults()
+		{
+			SetConfigDefaults();
+			SaveConfig();
+		}
+
+		#endregion
 	}
 }

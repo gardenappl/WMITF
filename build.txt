@@ -1,5 +1,5 @@
 ﻿displayName = Which Mod Is This From? (WMITF)
-author = goldenapple
+author = gardenapple
 version = 2.6
 homepage = http://forums.terraria.org/index.php?threads/vanilla-tweaks-other-little-tweak-mods.37443/#WMITF
 hideResources = false

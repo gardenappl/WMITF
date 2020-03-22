@@ -7,4 +7,4 @@ hideCode = false
 includeSource = true
 includePDB = true
 side = Client
-buildIgnore = obj\*, bin\*, *.csproj, .git\*, *.gitignore, *.md
+buildIgnore = build.txt, .gitattributes, .gitignore, .git/, .vs/, .idea/, bin/, obj/, Thumbs.db, *.csproj, .cs, .sln, readme.md

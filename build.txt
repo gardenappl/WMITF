@@ -6,5 +6,5 @@ hideResources = false
 hideCode = false
 includeSource = true
 includePDB = true
+buildIgnore = .gitattributes, .gitignore, .git\*, .vs\*, .idea\*, bin\*, obj\*, Thumbs.db, readme.md
 side = Client
-buildIgnore = build.txt, .gitattributes, .gitignore, .git/, .vs/, .idea/, bin/, obj/, Thumbs.db, *.csproj, .cs, .sln, readme.md

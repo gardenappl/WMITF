@@ -18,29 +18,36 @@ using Terraria.Localization;
 
 namespace WMITF
 {
-	public class WMITF : Mod
-	{
-		static string MouseText;
-		static bool SecondLine;
-		static ModHotKey ToggleTooltipsHotkey;
-		static ModHotKey TechnicalNamesHotkey;
-		static bool DisplayWorldTooltips = false;
-		static bool DisplayItemTooltips = true;
-		static bool DisplayTechnicalNames = false;
-		
-		static Preferences Configuration = new Preferences(Path.Combine(Main.SavePath, "Mod Configs", "WMITF.json"));
+    public class WMITF : Mod
+    {
+        static string MouseText;
+        static bool SecondLine;
+        static ModHotKey ToggleTooltipsHotkey;
+        static ModHotKey TechnicalNamesHotkey;
+        static bool DisplayWorldTooltips = false;
+        static bool DisplayItemTooltips = true;
+        static bool DisplayTechnicalNames = false;
 
-		public override void Load()
-		{
-			ToggleTooltipsHotkey = RegisterHotKey("Tile/NPC Mod Tooltip", "OemQuestion");
-			TechnicalNamesHotkey = RegisterHotKey("Technical Names", "N");
-			if(!ReadConfig())
-			{
-				SetConfigDefaults();
-				SaveConfig();
-			}
-			Configuration.AutoSave = true;
-		}
+        static Preferences Configuration = new Preferences(Path.Combine(Main.SavePath, "Mod Configs", "WMITF.json"));
+
+        public override void Load()
+        {
+            ToggleTooltipsHotkey = RegisterHotKey("Tile/NPC Mod Tooltip", "OemQuestion");
+            TechnicalNamesHotkey = RegisterHotKey("Technical Names", "N");
+            if (!ReadConfig())
+            {
+                SetConfigDefaults();
+                SaveConfig();
+            }
+            Configuration.AutoSave = true;
+        }
+
+        public override void Unload()
+        {
+            ToggleTooltipsHotkey = null;
+            TechnicalNamesHotkey = null;
+        }
+
 
 		#region Config
 

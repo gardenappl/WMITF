@@ -1,4 +1,12 @@
-﻿TechNamesOn=[WMITF] Technical names turned ON
+﻿
+TechNamesOn=[WMITF] Technical names turned ON
 TechNamesOff=[WMITF] Technical names turned OFF
 WorldTooltipsOn=[WMITF] NPC/Tile tooltips turned ON
 WorldTooltipsOff=[WMITF] NPC/Tile tooltips turned OFF
+
+DisplayWorldTooltips=Display World Tooltips
+DisplayWorldTooltips.Desc=Whether or not mod origins are displayed when hovering over NPCs and Tiles.
+DisplayItemTooltips=Display Items Tooltips
+DisplayItemTooltips.Desc=Whether or not mod origins are displayed in item tooltips.
+DisplayTechnicalNames=Display Technical Names
+DisplayTechnicalNames.Desc=Whether or not technical names are displayed.

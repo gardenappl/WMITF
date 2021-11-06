@@ -1,0 +1,8 @@
+Mods: {
+	WMITF: {
+		TechNamesOn: "[WMITF] 物品来源提示已打开"
+		TechNamesOff: "[WMITF] 物品来源提示已关闭"
+		WorldTooltipsOn: "[WMITF] 生物/物块来源提示已打开"
+		WorldTooltipsOff: "[WMITF] 生物/物块来源提示已打开"
+	}
+}

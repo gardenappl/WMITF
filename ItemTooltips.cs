@@ -9,15 +9,14 @@ namespace WMITF
 		{
 			public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 			{
-				var modLoaderMod = ModLoader.GetMod("ModLoader");
-				int mysteryItem = modLoaderMod.ItemType("MysteryItem");
-				int aprilFoolsItem = modLoaderMod.ItemType("AprilFools");
-				if(ModContent.GetInstance<Config>().DisplayItemTooltips && item.type != mysteryItem && (item.type != aprilFoolsItem || !WMITF.CheckAprilFools()))
+				ModLoader.TryGetMod("ModLoader", out Mod modLoaderMod);
+				modLoaderMod.TryFind<ModItem>("AprilFools", out ModItem aprilFoolsItem);
+				if(ModContent.GetInstance<Config>().DisplayItemTooltips && (item.type != aprilFoolsItem.Type || !WMITF.CheckAprilFools()))
 				{
-					if(item.modItem != null && !item.Name.Contains("[" + item.modItem.mod.Name + "]") && !item.Name.Contains("[" + item.modItem.mod.DisplayName + "]"))
+					if(item.ModItem != null && !item.Name.Contains("[" + item.ModItem.Mod.Name + "]") && !item.Name.Contains("[" + item.ModItem.Mod.DisplayName + "]"))
 					{
-						string text = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (item.modItem.mod.Name + ":" + item.modItem.Name) : item.modItem.mod.DisplayName;
-						var line = new TooltipLine(mod, mod.Name, "[" + text + "]");
+						string text = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (item.ModItem.Mod.Name + ":" + item.ModItem.Name) : item.ModItem.Mod.DisplayName;
+						var line = new TooltipLine(Mod, Mod.Name, "[" + text + "]");
 						line.overrideColor = Colors.RarityBlue;
 						tooltips.Add(line);
 					}

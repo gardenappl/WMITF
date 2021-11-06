@@ -1,0 +1,23 @@
+Mods: {
+	WMITF: {
+		TechNamesOn: "[WMITF] Technical names turned ON"
+		TechNamesOff: "[WMITF] Technical names turned OFF"
+		WorldTooltipsOn: "[WMITF] NPC/Tile tooltips turned ON"
+		WorldTooltipsOff: "[WMITF] NPC/Tile tooltips turned OFF"
+
+		DisplayWorldTooltips: {
+			$parentVal: Display World Tooltips
+			Desc: Whether or not mod origins are displayed when hovering over NPCs and Tiles.
+		}
+
+		DisplayItemTooltips: {
+			$parentVal: Display Items Tooltips
+			Desc: Whether or not mod origins are displayed in item tooltips.
+		}
+
+		DisplayTechnicalNames: {
+			$parentVal: Display Technical Names
+			Desc: Whether or not technical names are displayed.
+		}
+	}
+}

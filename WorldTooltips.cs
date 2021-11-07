@@ -47,16 +47,18 @@ namespace WMITF
                 return;
             WMITFModSystem.MouseText = String.Empty;
             WMITFModSystem.SecondLine = false;
+            
             var tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
             if (tile != null)
             {
-                if (tile.IsActive)
+                
+                if (tile.IsActive && !WMITF.isUnloadedTile(tile))
                 {
-                    var modTile = TileLoader.GetTile(tile.type);
-                    if (modTile != null)
-                    {
-                        WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modTile.Mod.Name + ":" + modTile.Name) : modTile.Mod.DisplayName;
-                    }
+                        var modTile = TileLoader.GetTile(tile.type);
+                        if (modTile != null)
+                        {
+                            WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modTile.Mod.Name + ":" + modTile.Name) : modTile.Mod.DisplayName;
+                        }
                 }
                 else
                 {

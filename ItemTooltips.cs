@@ -9,9 +9,8 @@ namespace WMITF
 		{
 			public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 			{
-				ModLoader.TryGetMod("ModLoader", out Mod modLoaderMod);
-				modLoaderMod.TryFind<ModItem>("AprilFools", out ModItem aprilFoolsItem);
-				if(ModContent.GetInstance<Config>().DisplayItemTooltips && (item.type != aprilFoolsItem.Type || !WMITF.CheckAprilFools()))
+
+				if (ModContent.GetInstance<Config>().DisplayItemTooltips && item.type != WMITF.unloadedItemType && (item.type != WMITF.aprilFoolsItemType || !WMITF.CheckAprilFools()))
 				{
 					if(item.ModItem != null && !item.Name.Contains("[" + item.ModItem.Mod.Name + "]") && !item.Name.Contains("[" + item.ModItem.Mod.DisplayName + "]"))
 					{

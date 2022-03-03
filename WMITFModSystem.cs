@@ -37,8 +37,7 @@ namespace WMITF
 							pos.X = (float)(Main.screenWidth - x);
 						if (SecondLine)
 							pos.Y += Terraria.GameContent.FontAssets.MouseText.Value.LineSpacing;
-						int hoveredSnippet;
-						ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, text, pos, 0f, Vector2.Zero, Vector2.One, out hoveredSnippet);
+						ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, text, pos, 0f, Vector2.Zero, Vector2.One, out int hoveredSnippet);
 					}
 					return true;
 				}, InterfaceScaleType.UI));

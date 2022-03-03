@@ -59,11 +59,11 @@ namespace WMITF
 			return date.Month == 4 && date.Day <= 2;
 		}
 
-        public static bool isUnloadedTile(Tile tile)
+        public static bool IsUnloadedTile(Tile tile)
         {
-            if (tile.IsActive && tile != null)
+            if (tile.HasTile)
             {
-                if (tile.type == unloadedTileType1 || tile.type == unloadedTileType2 || tile.type == unloadedTileType3)
+                if (tile.TileType == unloadedTileType1 || tile.TileType == unloadedTileType2 || tile.TileType == unloadedTileType3)
                 {
                     return true;
                 }

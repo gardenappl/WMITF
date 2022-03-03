@@ -49,26 +49,23 @@ namespace WMITF
             WMITFModSystem.SecondLine = false;
             
             var tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-            if (tile != null)
+            if (tile.HasTile && !WMITF.IsUnloadedTile(tile))
             {
-                
-                if (tile.IsActive && !WMITF.isUnloadedTile(tile))
-                {
-                        var modTile = TileLoader.GetTile(tile.type);
-                        if (modTile != null)
-                        {
-                            WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modTile.Mod.Name + ":" + modTile.Name) : modTile.Mod.DisplayName;
-                        }
-                }
-                else
-                {
-                    var modWall = WallLoader.GetWall(tile.wall);
-                    if (modWall != null)
+                    var modTile = TileLoader.GetTile(tile.TileType);
+                    if (modTile != null)
                     {
-                        WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modWall.Mod.Name + ":" + modWall.Name) : modWall.Mod.DisplayName;
+                        WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modTile.Mod.Name + ":" + modTile.Name) : modTile.Mod.DisplayName;
                     }
+            }
+            else
+            {
+                var modWall = WallLoader.GetWall(tile.WallType);
+                if (modWall != null)
+                {
+                    WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modWall.Mod.Name + ":" + modWall.Name) : modWall.Mod.DisplayName;
                 }
             }
+            
 
             var mousePos = Main.MouseWorld;
             for (int i = 0; i < Main.maxNPCs; i++)

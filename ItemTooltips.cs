@@ -16,7 +16,7 @@ namespace WMITF
 					{
 						string text = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (item.ModItem.Mod.Name + ":" + item.ModItem.Name) : item.ModItem.Mod.DisplayName;
 						TooltipLine line = new (Mod, Mod.Name, "[" + text + "]");
-						line.overrideColor = Colors.RarityBlue;
+						line.OverrideColor = Colors.RarityBlue;
 						tooltips.Add(line);
 					}
 				}

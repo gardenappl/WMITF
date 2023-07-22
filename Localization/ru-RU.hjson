@@ -4,5 +4,31 @@ Mods: {
 		TechNamesOff: "[WMITF] Технические названия ВЫКЛ"
 		WorldTooltipsOn: "[WMITF] Названия НИП/тайлов ВКЛ"
 		WorldTooltipsOff: "[WMITF] Названия НИП/тайлов ВЫКЛ"
+
+		Keybinds: {
+			// "Technical Names.DisplayName": Display Technical Names
+			// "Tile/NPC Mod Tooltip.DisplayName": Display Tile/NPC Mod Tooltips
+		}
+
+		Configs: {
+			Config: {
+				// DisplayName: Config
+
+				DisplayWorldTooltips: {
+					// Label: Display World Tooltips
+					// Tooltip: Whether or not mod origins are displayed when hovering over NPCs and Tiles.
+				}
+
+				DisplayItemTooltips: {
+					// Label: Display Items Tooltips
+					// Tooltip: Whether or not mod origins are displayed in item tooltips.
+				}
+
+				DisplayTechnicalNames: {
+					// Label: Display Technical Names
+					// Tooltip: Whether or not technical names are displayed.
+				}
+			}
+		}
 	}
 }

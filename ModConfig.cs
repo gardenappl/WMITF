@@ -12,18 +12,12 @@ namespace WMITF
 	{
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        [Label("$Mods.WMITF.DisplayWorldTooltips")]
-		[Tooltip("$Mods.WMITF.DisplayWorldTooltips.Desc")]
 		[DefaultValue(false)]
         public bool DisplayWorldTooltips;
 
-        [Label("$Mods.WMITF.DisplayItemTooltips")]
-		[Tooltip("$Mods.WMITF.DisplayItemTooltips.Desc")]
 		[DefaultValue(true)]
         public bool DisplayItemTooltips;
 		
-        [Label("$Mods.WMITF.DisplayTechnicalNames")]
-		[Tooltip("$Mods.WMITF.DisplayTechnicalNames.Desc")]
 		[DefaultValue(false)]
         public bool DisplayTechnicalNames;
 

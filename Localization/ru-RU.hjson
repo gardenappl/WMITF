@@ -2,31 +2,31 @@ Mods: {
 	WMITF: {
 		TechNamesOn: "[WMITF] Технические названия ВКЛ"
 		TechNamesOff: "[WMITF] Технические названия ВЫКЛ"
-		WorldTooltipsOn: "[WMITF] Названия НИП/тайлов ВКЛ"
-		WorldTooltipsOff: "[WMITF] Названия НИП/тайлов ВЫКЛ"
+		WorldTooltipsOn: "[WMITF] Подсказки для НИП/блоков ВКЛ"
+		WorldTooltipsOff: "[WMITF] Подсказки для НИП/блоков ВЫКЛ"
 
 		Keybinds: {
-			// "Technical Names.DisplayName": Display Technical Names
-			// "Tile/NPC Mod Tooltip.DisplayName": Display Tile/NPC Mod Tooltips
+			"Technical Names.DisplayName": Показывать технические названия
+			"Tile/NPC Mod Tooltip.DisplayName": Показывать моды для НИП/блоков
 		}
 
 		Configs: {
 			Config: {
-				// DisplayName: Config
+				DisplayName: Конфигурация
 
 				DisplayWorldTooltips: {
-					// Label: Display World Tooltips
-					// Tooltip: Whether or not mod origins are displayed when hovering over NPCs and Tiles.
+					Label: Показывать подсказки вне инвентаря
+					Tooltip: Позволяет увидеть мод, добавивший данный блок или НИПа.
 				}
 
 				DisplayItemTooltips: {
-					// Label: Display Items Tooltips
-					// Tooltip: Whether or not mod origins are displayed in item tooltips.
+					Label: Показывать подсказки в инвентаре
+					Tooltip: Позволяет увидеть мод, добавивший данный предмет.
 				}
 
 				DisplayTechnicalNames: {
-					// Label: Display Technical Names
-					// Tooltip: Whether or not technical names are displayed.
+					Label: Показывать технические названия
+					Tooltip: Показывает значения Mod.Name, ModItem.Name и пр. вместо названия мода.
 				}
 			}
 		}

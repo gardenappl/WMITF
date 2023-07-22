@@ -5,19 +5,30 @@ Mods: {
 		WorldTooltipsOn: "[WMITF] NPC/Tile tooltips turned ON"
 		WorldTooltipsOff: "[WMITF] NPC/Tile tooltips turned OFF"
 
-		DisplayWorldTooltips: {
-			$parentVal: Display World Tooltips
-			Desc: Whether or not mod origins are displayed when hovering over NPCs and Tiles.
+		Keybinds: {
+			"Technical Names.DisplayName": Display Technical Names
+			"Tile/NPC Mod Tooltip.DisplayName": Display Tile/NPC Mod Tooltips
 		}
 
-		DisplayItemTooltips: {
-			$parentVal: Display Items Tooltips
-			Desc: Whether or not mod origins are displayed in item tooltips.
-		}
+		Configs: {
+			Config: {
+				DisplayName: Config
 
-		DisplayTechnicalNames: {
-			$parentVal: Display Technical Names
-			Desc: Whether or not technical names are displayed.
+				DisplayWorldTooltips: {
+					Label: Display World Tooltips
+					Tooltip: Whether or not mod origins are displayed when hovering over NPCs and Tiles.
+				}
+
+				DisplayItemTooltips: {
+					Label: Display Items Tooltips
+					Tooltip: Whether or not mod origins are displayed in item tooltips.
+				}
+
+				DisplayTechnicalNames: {
+					Label: Display Technical Names
+					Tooltip: Whether or not technical names are displayed.
+				}
+			}
 		}
 	}
 }

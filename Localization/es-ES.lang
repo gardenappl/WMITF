@@ -1,0 +1,13 @@
+
+TechNamesOn=[WMITF] Nombres técnicos activados
+TechNamesOff=[WMITF] Nombres técnicos desactivados
+WorldTooltipsOn=[WMITF] Información sobre herramientas de mosaicos/PNJ activada
+WorldTooltipsOff=[WMITF] Información sobre herramientas de mosaicos/PNJ desactivada
+
+DisplayWorldTooltips=Mostrar información sobre herramientas del mundo
+DisplayWorldTooltips.Desc=Si se muestran o no los orígenes de los mods al pasar el cursor sobre NPC y Tiles.
+DisplayItemTooltips=Mostrar información sobre herramientas de elementos
+DisplayItemTooltips.Desc=Si los orígenes de los mods se muestran o no en la información sobre herramientas de los elementos.
+DisplayTechnicalNames=Mostrar nombres técnicos
+DisplayTechnicalNames.Desc=Si se muestran o no los nombres técnicos.
+​

@@ -14,8 +14,8 @@ namespace WMITF
 				{
 					if(item.ModItem != null && !item.Name.Contains("[" + item.ModItem.Mod.Name + "]") && !item.Name.Contains("[" + item.ModItem.Mod.DisplayName + "]"))
 					{
-						string text = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (item.ModItem.Mod.Name + ":" + item.ModItem.Name) : item.ModItem.Mod.DisplayName;
-						TooltipLine line = new (Mod, Mod.Name, "[" + text + "]");
+						string text = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (item.ModItem.Name + ":" + item.ModItem.Mod.Name) : item.ModItem.Mod.DisplayName;
+						TooltipLine line = new (Mod, "WMITF_" + Mod.Name, "[" + text + "]");
 						line.OverrideColor = Colors.RarityBlue;
 						tooltips.Add(line);
 					}

@@ -76,7 +76,7 @@ namespace WMITF
                     var modNPC = NPCLoader.GetNPC(npc.type);
                     if (modNPC != null && npc.active && !NPCID.Sets.ProjectileNPC[npc.type])
                     {
-                        WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modNPC.Mod.Name + ":" + modNPC.Name) : modNPC.Mod.DisplayName;
+                        WMITFModSystem.MouseText = ModContent.GetInstance<Config>().DisplayTechnicalNames ? (modNPC.Name + ":" + modNPC.Mod.Name ) : modNPC.Mod.DisplayName;
                         WMITFModSystem.SecondLine = true;
                         break;
                     }
